@@ -35,7 +35,7 @@ public class RegistrationService {
                         RegistrationStatus.ACTIVE
                 );
 
-        if (activeCount > event.getCapacity()) {
+        if (activeCount >= event.getCapacity()) {
             throw new EventFullException();
         }
 
@@ -43,7 +43,16 @@ public class RegistrationService {
                 .trim()
                 .toLowerCase(Locale.ROOT);
 
-        // Intentionally missing duplicate-registration check.
+        boolean alreadyRegistered = registrationRepository
+                .existsByEvent_IdAndStudentEmailIgnoreCaseAndStatus(
+                        eventId,
+                        email,
+                        RegistrationStatus.ACTIVE
+                );
+
+        if (alreadyRegistered) {
+            throw new DuplicateRegistrationException();
+        }
         return registrationRepository.save(
                 new Registration(
                         event,
