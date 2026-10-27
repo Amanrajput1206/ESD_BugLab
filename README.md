@@ -1,70 +1,115 @@
-# ESD Lab 3 — Campus Event Registration API
+# ESD Lab 3 — Campus Event Registration API Debugging
 
-**Student starter repository.** This project intentionally contains eight planted defects. It is expected that the eight targeted tests in `Lab3BugTests` fail before the defects are fixed. The smoke test should pass. This is intentional for the lab, not a setup failure.
+## Overview
 
-## Stack
-- Java 17 (Java 21 also works)
+This lab provides a Spring Boot REST API for campus event registration with **8 intentional bugs**. Your task is to identify the bugs, correct the implementation, and verify your changes using the provided tests.
+
+**Important:** Debug and fix the application manually. Do not use AI tools to generate fixes.
+
+## Technology Stack
+
+- Java 17 or later
 - Spring Boot 3.3.5
 - Spring Data JPA
-- H2 in-memory database with automatic seed data
-- Springdoc OpenAPI / Swagger UI
+- H2 in-memory database
+- Maven
 - JUnit 5 and MockMvc
+- Swagger UI
 
-## Run
-From the project directory:
+## Prerequisites
 
-Windows PowerShell:
-```powershell
-.\mvnw.cmd spring-boot:run
-.\mvnw.cmd test
-```
+Install or configure:
 
-macOS/Linux (requires Maven installed because this lightweight wrapper delegates to `mvn`):
+- JDK 17 or 21
+- IntelliJ IDEA or another Java IDE
+- Maven, if you intend to run Maven commands directly from the terminal
+- Git, if you need to clone the repository
+
+Verify your Java and Maven installations:
+
 ```bash
-chmod +x mvnw
-./mvnw spring-boot:run
-./mvnw test
+java -version
+mvn -version
 ```
 
-You can also open the project in IntelliJ IDEA and run `EsdLab3Application` or use the Maven panel.
+## 1. Clone the Repository
 
-## Swagger UI
-After the app starts, open: http://localhost:8080/swagger-ui/index.html
-
-OpenAPI JSON: http://localhost:8080/v3/api-docs
-
-H2 console (optional): http://localhost:8080/h2-console
-- JDBC URL: `jdbc:h2:mem:esdlab3`
-- Username: `sa`
-- Password: leave blank
-
-## Database and seed data
-H2 runs in memory. Tables are created when the application starts and dropped when it stops. The `SeedData` initializer inserts sample events and registrations once per startup. Restart the app for a clean seeded database. Tests clear the tables before each test so they do not depend on seed ordering.
-
-## API endpoints
-| Method | Endpoint | Purpose |
-|---|---|---|
-| POST | `/api/events` | Create event |
-| GET | `/api/events` | List events |
-| GET | `/api/events/{id}` | Get event |
-| POST | `/api/events/{eventId}/registrations` | Register a student |
-| GET | `/api/events/{eventId}/registrations` | List active registrations |
-| DELETE | `/api/registrations/{registrationId}` | Cancel registration |
-
-Example create-event request:
-```json
-{"title":"ESD Workshop","capacity":2}
-```
-Example registration request:
-```json
-{"studentEmail":"student@example.com"}
+```bash
+git clone https://github.com/sivasomanath2502/ESD_BugLab.git
+cd ESD_BugLab
 ```
 
-## Lab expectations
-1. Reproduce each issue through Swagger UI and/or the supplied tests.
-2. Use breakpoints, logs, stack traces, and code inspection to find the root cause.
-3. Fix the defect manually; do not use generative AI tools for debugging, fixes, or tests.
-4. Re-run tests and record the root cause, fix, and verification evidence.
-5. Do not remove or weaken a test merely to make the suite green.
+Open the project in IntelliJ IDEA and wait for Maven dependencies to load.
 
-The eight defects cover input validation, business rules, state transitions, repository queries, and HTTP/resource error handling. See `docs/student-lab-instructions.md` for the issue reports. No solution locations are disclosed in the student package.
+## 2. Run the Tests First
+
+**Before modifying any code, run the tests to observe the initial failures.**
+
+### Using IntelliJ IDEA
+
+1. Open `Lab3BugTests.java` under the test source directory.
+2. Right-click the test class.
+3. Select **Run 'Lab3BugTests'**.
+4. Review the test results and note the expected and actual behaviour.
+
+### Using Maven
+
+From the project root, run:
+
+```bash
+mvn test
+```
+
+The eight bug-specific tests are expected to fail initially. The smoke test should pass.
+
+Do not modify or remove the tests to make them pass.
+
+## 3. Bugs to Fix
+
+Refer to [`ESD-Lab3-Bugs-to-Fix.md`](ESD-Lab3-Bugs-to-Fix.md) for the list of eight bugs and their expected behaviour.
+
+## 4. Run the Application
+
+### Using IntelliJ IDEA
+
+Run the main Spring Boot application class, `EsdLab3Application`.
+
+### Using Maven
+
+```bash
+mvn spring-boot:run
+```
+
+Wait until the application starts successfully.
+
+The application uses an in-memory H2 database. Data may be reset when the application restarts.
+
+## 5. Test the API
+
+Open Swagger UI in your browser:
+
+http://localhost:8080/swagger-ui/index.html
+
+Use the available endpoints to test the API and inspect the HTTP status codes and response bodies.
+
+## 6. Fix the Bugs and Rerun the Tests
+
+Work on one bug at a time:
+
+1. Identify a failing test.
+2. Reproduce the incorrect behaviour.
+3. Investigate the relevant application code.
+4. Fix the underlying issue.
+5. Rerun the relevant test.
+6. Rerun the complete test suite to check for regressions.
+
+Continue until all eight bug-specific tests and the smoke test pass.
+
+## 7. Completion Criteria
+
+- All eight bugs have been corrected.
+- All provided tests pass.
+- The application starts successfully.
+- The API behaves as expected when tested locally using Swagger UI.
+
+**Do not change or weaken the tests to achieve a passing result.** Fix the application code instead.
