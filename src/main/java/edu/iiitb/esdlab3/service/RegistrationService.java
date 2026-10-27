@@ -75,7 +75,7 @@ public class RegistrationService {
                         () -> new RegistrationNotFoundException(registrationId)
                 );
 
-        if (registration.getStatus() == RegistrationStatus.CANCELLED) {
+        if (registration.getStatus() != RegistrationStatus.CANCELLED) {
             registration.setStatus(RegistrationStatus.CANCELLED);
         }
     }
